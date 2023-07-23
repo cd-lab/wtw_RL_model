@@ -63,9 +63,6 @@ figMF3 = ( outs_[[3]][['curve']] | outs_[[3]][['wtw']] ) / ( outs_[[3]][['auc']]
 ggsave(file.path("../figures/cmb","mf3.eps"), figMF3 , width = 12, height = 8)
 
 
-ggsave("~/Downloads/wtw.eps", outs_[[2]][['wtw']] , width = 8, height = 4)
-
-
 # plot correlations among task measures
 pdf("../figures/cmb/exp3_task_corr1.pdf", width = 5, height = 5) 
 outs_[[3]][['corr1']]
@@ -82,14 +79,6 @@ dev.off()
 pdf("../figures/cmb/exp3_task_corr2.pdf", width = 5, height = 5) 
 outs_[[3]][['corr2']]
 dev.off()
-
-# plot correlations among task measures and self-report measures
-source("wtw_exp1/exp1_taskTraitCorr.R")
-setwd("wtw_exp1")
-figs = taskTraitCorr()
-figTaskTrait = figs[['figTraitAUC']] / figs[['figTraitDelta']] / figs[['figTraitSigma']] + plot_annotation(tag_levels = "a")
-setwd(pwd)
-ggsave(file.path("../figures/cmb","exp1_task_trait.pdf"), figTaskTrait, width = 12, height = 15)
 
 ##################################################################
 ##                 Performance check simulation                 ##
@@ -309,23 +298,7 @@ outs_[[1]]$nPass
 outs_[[2]]$nPass
 outs_[[3]]$nPass
 
-########### individual participants ##########
-setwd("wtw_exp1")
-source("exp1_expModelRepInd.R")
-outs = expModelRepInd()
-figInd = (outs$emp | outs$modelInd | outs$modelGroup) + plot_annotation(tag_levels = "a")
-setwd(pwd)
-ggsave(file.path("../figures/cmb", "figInd.eps"), figInd, width = 15, height = 4)
 
-##### combine correlation figures ####3
-library("figpatch")
-outs = list()
-for(i in 1 : nExp){
-  this_path = system.file("../figures/cmb", sprintf("exp%d_corr.pdf", i))
-  img = fig(this_path)
-  outs[[i]] = img
-}
-pat <- patchwork::wrap_plots(outs[[1]], outs[[2]], outs[[3]])
 
 
 
