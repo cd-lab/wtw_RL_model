@@ -11,12 +11,13 @@ library(patchwork)
 library(figpatch)
 
 
+
 # settings 
 exps = c("exp1", "exp2", "exp3")
 nExp = length(exps)
 pwd = getwd()
 wds = c("wtw_exp1", "wtw_exp2", "wtw_exp3")
-models = c("QL1", "QL2", "RL1", "RL2", "naive", "omni")
+models = c("QL1", "QL2", "RL1", "RL2", "naive")
 nModel = length(models)
 iti = 2 # inter-trial interval in seconds 
 smallReward = 0 # initial token value
@@ -126,7 +127,7 @@ ggsave(file.path("..", "figures", "cmb", "posthoc_para_effect.eps"), figPostHoc 
 ###################################################################
 ## Warnings: this model fitting process can take hours. 
 ## To save time, you can directly download the outputs from the link below and move to the next step:
-## https://www.dropbox.com/sh/a2yqj3f21fkzj3r/AADly4VA7SMeaBWY5Nkeo83Ga?dl=0
+## https://www.dropbox.com/scl/fo/rg4e26tzgacfds94uibk2/h?rlkey=qgve6n4xtjf44aztslbtgezrn&dl=0
 parallel = F # When running on a local PC, you can use set this variabel to true to turn on parallel computing
 for(i in 1 : nExp){
   setwd(file.path(pwd, wds[i]))
@@ -259,6 +260,9 @@ for(i in 1 : nExp){
 #################################################################
 ## parameter recovery, simulation and parameter estimation     ##
 #################################################################
+## Warnings: this model fitting process can take hours. 
+## To save time, you can directly download the outputs from the link below and move to the next step:
+## https://www.dropbox.com/scl/fo/rg4e26tzgacfds94uibk2/h?rlkey=qgve6n4xtjf44aztslbtgezrn&dl=0
 parallel = F # When run on a local PC, you can use set this variabel to true to turn on parallel computing
 for(i in 1 : nExp){
   setwd(file.path(pwd, wds[i]))
@@ -267,16 +271,16 @@ for(i in 1 : nExp){
   source(sprintf("exp%d_simulation.R", i))
   simulation()
   # simulate artificial participants using indvidually fit parameters 
-  # # fit all participants
-  # print(sprintf("Model fitting for simulated participants in Exp.%d", i))
-  # print(sprintf("Model fitting results saved at ../genData/wtw_exp%d/simModelFit/%s", i, "QL2"))
-  # sprintf("Stan warning messages saved at stanWarnings/sim_%s_%s.txt", "QL2", "QL2")
-  # simModelFit("QL2", "QL2", isFirstFit = T, parallel = parallel)
+  # fit all participants
+  print(sprintf("Model fitting for simulated participants in Exp.%d", i))
+  print(sprintf("Model fitting results saved at ../genData/wtw_exp%d/simModelFit/%s", i, "QL2"))
+  sprintf("Stan warning messages saved at stanWarnings/sim_%s_%s.txt", "QL2", "QL2")
+  simModelFit("QL2", "QL2", isFirstFit = T, parallel = parallel)
   # 
-  # # check whether the model converge and fit again if necessary
-  # print(sprintf("Increase samples to fit simulated participants with disconvergent results in Exp.%d", i))
-  # sprintf("Stan warning messages saved at stanWarnings/sim_refit_%s_%s.txt", "QL2", "QL2")
-  # simModelFit("QL2", "QL2", isFirstFit = F, parallel = parallel)
+  # check whether the model converge and fit again if necessary
+  print(sprintf("Increase samples to fit simulated participants with disconvergent results in Exp.%d", i))
+  sprintf("Stan warning messages saved at stanWarnings/sim_refit_%s_%s.txt", "QL2", "QL2")
+  simModelFit("QL2", "QL2", isFirstFit = F, parallel = parallel)
 }
 
 #########################################################
@@ -292,7 +296,7 @@ for(i in 1 : nExp){
 # assemble the figures
 setwd(pwd)
 figParaRecovery = outs_[[1]]$fig / outs_[[2]]$fig / outs_[[3]]$fig
-ggsave(file.path("../figures/cmb", "paraRecovery.eps"), figParaRecovery, width = 25, height = 12)
+ggsave(file.path("../figures/cmb", "paraRecovery.eps"), figParaRecovery, width = 18, height = 9)
 # print the number of included artificial participants for each experiments
 outs_[[1]]$nPass
 outs_[[2]]$nPass

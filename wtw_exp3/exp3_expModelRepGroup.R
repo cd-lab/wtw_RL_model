@@ -24,7 +24,7 @@ trialData = allData$trialData
 ids = hdrData$id             
 nSub = length(ids) 
 # all passcheck
-modelNames = c("QL1", "QL2", "RL1", "RL2", "naive", "omni")
+modelNames = c("QL1", "QL2", "RL1", "RL2", "naive")
 nModel = length(modelNames)
 passCheck_ = matrix(NA, nrow = nSub, ncol = nModel)
 for(k in 1 : nModel){

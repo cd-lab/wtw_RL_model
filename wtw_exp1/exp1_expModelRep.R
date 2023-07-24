@@ -5,6 +5,7 @@ expModelRep = function(modelName, allData = NULL, MFResults = NULL, repOutputs =
   # dir.create("../../figures/wtw_exp1")
   # dir.create("../../figures/wtw_exp1/expModelRep/")
   # dir.create(sprintf("../../figures/wtw_exp1/expModelRep/%s",modelName))
+  dir.create("../../genData/wtw_exp1/expModelRep")
   
   # load experiment parameters
   load('expParas.RData')
